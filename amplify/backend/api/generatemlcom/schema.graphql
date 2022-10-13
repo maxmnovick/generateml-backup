@@ -1,0 +1,14 @@
+type ProductImport @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Handle: String
+  Title: String
+  Variant_SKU: String
+}
+
+type ProductDetails @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  SKU: String
+  Collection: String
+  Type: String
+}
+ 
