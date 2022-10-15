@@ -15,7 +15,7 @@
       "function": {
         "generateproduct": {
           "deploymentBucketName": "amplify-generatemlcom-staging-155334-deployment",
-          "s3Key": "amplify-builds/generateproduct-577359624f5653686b48-build.zip"
+          "s3Key": "amplify-builds/generateproduct-4c6854382b6f326b7567-build.zip"
         },
         "generatemlcom6b99fc4b": {
           "deploymentBucketName": "amplify-generatemlcom-staging-155334-deployment",
