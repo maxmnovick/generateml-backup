@@ -15,6 +15,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
 
   const [jsonRows, setJsonRows] = useState([{ text: 'Learn Hooks' }]);
+  const [allItemJson, setAllItemJson] = useState([]);
 
   const [importRows, setImportRows] = useState([])
 
@@ -28,13 +29,31 @@ export default function Home() {
   //   console.log("data received: ", JSON.parse(data.toString()))
   // });
 
-  const uploadTsv = async () => {
-    try {
+  // const uploadTsv = async () => {
+  //   try {
 
-    } catch(e) {
-      console.log(e);
-    }
-  }
+  //   } catch(e) {
+  //     console.log(e);
+  //   }
+  // }
+  // // const assignToCatalog = async (data_rows) => {
+  // //   const catalog_rows = [];
+
+  // // };
+
+  // // at the end we want to have the useState variables assigned before processing
+  // const assignVarsToModel = async (headers, data_rows) => {
+  //   // find sku column
+  //   // look for keywords like sku or item#
+  //   // find collection column with collection keyword
+  //   // find type column with description keyword
+  //   sku_column_name = 'sku'
+  //   for (h in headers){
+  //     console.log(h)
+  //   }
+  //   //should we pass this to python for processing to get the fields sorted? yes!
+
+  // };
 
   //excel import
   const [tableData, setTableData] = useState([]);
@@ -60,107 +79,56 @@ export default function Home() {
     return(rows);
   };
 
-  // const assignToCatalog = async (data_rows) => {
-  //   const catalog_rows = [];
-
-  // };
-
-  // at the end we want to have the useState variables assigned before processing
-  const assignVarsToModel = async (headers, data_rows) => {
-    // find sku column
-    // look for keywords like sku or item#
-    // find collection column with collection keyword
-    // find type column with description keyword
-    sku_column_name = 'sku'
-    for (h in headers){
-      console.log(h)
-    }
-    //should we pass this to python for processing to get the fields sorted? yes!
-
-  };
+  
 
   //import excel
   const uploadToClient = async (e) => {
     try {
-      if (e.target.files && e.target.files[0]) {
+      const files = e.target.files
+      
+      if (files && files[0]) {
+        var allJsonRows = []
+        const num_files = files.length
+        console.log('num_files: ', num_files)
+        for (let file_num = 0; file_num <num_files; file_num++){
+          console.log('File in loop: ', files[file_num])
+          // if (file && files[file]){
+          //   console.log('File: ', files[file])
+          // }
+          console.log('file num: ', file_num);
+          const read_file = files[file_num];
+          //console.log('single file: ', file);
+          const reader = new FileReader();
+          reader.onload = async (event) => {
+            const bstr = event.target.result;
+            //console.log(bstr);
+            const workBook = XLSX.read(bstr, { type: "binary" });
+            //console.log(workBook);
+            const workSheetName = workBook.SheetNames[0];
+            //console.log(workSheetName);
+            const workSheet = workBook.Sheets[workSheetName];
+            //console.log(workSheet);
+            const fileData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
+            //console.log(fileData);
+            const headers = fileData[0];
+            //console.log(headers);
+            const heads = headers.map(head => ({ title: head, field: head }));
+            //console.log(heads);
+            fileData.splice(0, 1);
+            //console.log(fileData);
+            //allJsonRows.push(convertToJson(headers, fileData));
+            const jsonRows = await convertToJson(headers, fileData);
+            allJsonRows.push(jsonRows);
+          }
+          reader.readAsBinaryString(read_file);
 
-        const file = e.target.files[0];
-        console.log(file);
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const bstr = event.target.result;
-          console.log(bstr);
-          const workBook = XLSX.read(bstr, { type: "binary" });
-          console.log(workBook);
-          const workSheetName = workBook.SheetNames[0];
-          console.log(workSheetName);
-          const workSheet = workBook.Sheets[workSheetName];
-          console.log(workSheet);
-          const fileData = XLSX.utils.sheet_to_json(workSheet, { header: 1 });
-          console.log(fileData);
-          const headers = fileData[0];
-          console.log(headers);
-          const heads = headers.map(head => ({ title: head, field: head }));
-          console.log(heads);
-          fileData.splice(0, 1);
-          console.log(fileData);
-          convertToJson(headers, fileData);
+          
         }
-        reader.readAsBinaryString(file);
+        console.log("allJsonRows: ", allJsonRows)
+        setAllItemJson(allJsonRows);
 
         // sort out the input files so we get the fields we need
         // for example a vendor gives us extra fields with non standard names so we look for keywords and the result is the standardized catalog
-
-
-        // assign vars from excel to data model
-        // for each row in table
-        // setSku();
-        // setCollection();
-        // setType();
-        //assignVarsToModel(headers, jsonRows);
-        
-
-        // [ [ data, from, file, 1 ], [data, from, file, 2 ] ]
-        // or JSON {}
-        // send vars from data model to generate product
-        // OR
-        // send vars direct from excel to generate product
-        
-        // we only need to get back the vendor catalog if we want to display it
-        // but for now just return the product import to avoid the extra steps
-        // const vendor_catalog = await API.get('productgeneratorapi', '/product', init_vendor_data) // list of each row not including header row
-        // const myInit = {
-        //   queryStringParameters: {
-        //     submit_type: 'bulk', // so return a list
-        //     collection: vendor_catalog,
-        //     type: type
-        //   }
-        // };
-        // once we have the data we pass it to processing
-        //const all_final_item_info = await API.get('productgeneratorapi','/product', init_vendor_data);
-        
-        // const init_vendor_data = {
-        //   queryStringParameters: {
-        //     submit_type: 'file',
-        //     //vendor_product_data: tableData // vendor product data is raw data from vendor fed to generate catalog fcn
-        //     vendor_product_json: jsonRows
-        //   }
-        // };
-        // const vendor_product_import = await API.get('productgeneratorapi', '/product', init_vendor_data) // list of each row not including header row
-        // //const handle = await API.get('productgeneratorapi','/product', myInit);
-        // console.log({vendor_product_import});
-        
-        //handles = vendor_product_import['handles']
-        // save data for each product or can we instead display it directly and make xlsx file download?
-        // vendor_product_import.forEach(async product => {
-        //   await DataStore.save(
-        //     new ProductImport({
-        //       Handle: product['handle'],
-        //       Title: product['title'],
-        //       Variant_SKU: product['sku']
-        //     })
-        //   );
-        // });
         
       }
     } catch(err) {
@@ -170,13 +138,10 @@ export default function Home() {
 
   const uploadToServer = async () => {
     try {
-      console.log(jsonRows[0]['Collection Name']);
       const myInit = {
         queryStringParameters: {
           submit_type: 'file',
-          collection: jsonRows[0]['Collection Name'],
-          type: 'type example',
-          vendor_product_json: JSON.stringify(jsonRows)
+          vendor_product_json: JSON.stringify(allItemJson) 
         }
       };
       // get the output data ready for import
@@ -189,8 +154,32 @@ export default function Home() {
       console.log({ rows });
       // gen worksheet and workbook
       setImportRows(rows);
-      
 
+      // get html table
+      var import_table_preview = document.getElementById("import_table");
+      //import_table_preview.innerHTML = "";
+      let text = ""
+      //print table headers
+      const import_headers = ["Handle", "Title", "Variant SKU"]
+      text += "<tr>";
+      for (let h in import_headers){
+        text += "<th>" + import_headers[h] + "</th>";
+      }
+      text += "</tr>";
+      for (let row in rows){
+        console.log("row: ", row);
+        text += "<tr>";
+        for (let col in rows[row]){
+          console.log("col: ", col);
+          text += "<td>" + rows[row][col] + "</td>";
+        }
+        text += "</tr>";
+        
+        console.log("text", text);
+      }
+      import_table_preview.innerHTML = text;
+      var table_caption = import_table_preview.createCaption();
+      table_caption.innerHTML = "Product Import"
 
       // const data = {
       //   Data1: [
@@ -207,7 +196,7 @@ export default function Home() {
       // };
       // setImportRows(data);
 
-      document.getElementById('import_json').innerHTML = JSON.stringify(rows);
+      //document.getElementById('import_json').innerHTML = JSON.stringify(rows);
       
       //console.log("Post saved successfully!");
     } catch(e) {
@@ -314,18 +303,21 @@ export default function Home() {
       <input type="file"
             id="product_data" name="product_data"
             accept=".xlsx,.xls,.tsv,.csv"
-            onChange={uploadToClient}/> 
+            onChange={uploadToClient}
+            multiple/> 
       <button
           className="btn btn-primary"
           type="submit"
           onClick={uploadToServer}
         >
-          Send to server
+          Generate Products
         </button>
       {/* <a href="Product-Import.xlsx" download>Download Product Import</a> */}
-      <button onClick={xport}>Download Product Import</button>
+      <button onClick={xport}>Download Products</button>
 
-      <pre id="import_json"></pre>
+      <div className="table_wrapper">
+        <table id="import_table"></table>
+      </div>
 
       <ProductDetailsForm overrides={addProductOverrides}/>
       <div className="row">
