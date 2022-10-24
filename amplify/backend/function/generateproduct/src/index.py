@@ -5,13 +5,42 @@ import json
 
 # for added fcns
 import re
+import copy # to store init deep copy of catalog for processing
+import reader # format input field values
+import converter # convert all weights to grams
+import generator # generate output
+import sorter # sort items by size
+import writer # format output
+import determiner # determine std key
 
 #logging.basicConfig(level=logging.DEBUG)
 # logger = logging.getLogger()
 # logger.setLevel(logging.INFO)
 
-def generate_catalog(vendor_product_data):
-    print("vendor_product_data: " + str(vendor_product_data))
+# order of detail fields, from init catalog
+sku_idx = 0
+handle_idx = 1
+title_idx = 2
+intro_idx = 3
+color_idx = 4
+mat_idx = 5
+finish_idx = 6
+width_idx = 7
+depth_idx = 8
+height_idx = 9
+weight_idx = 10
+features_idx = 11
+cost_idx = 12
+img_src_idx = 13
+barcode_idx = 14
+
+# set the seller for different cost to price conversions and other requirements such as if inventory tracking capable
+seller = 'HFF' # examples: JF, HFF
+
+vendor = "acme"
+
+# def generate_catalog(vendor_product_data):
+#     print("vendor_product_data: " + str(vendor_product_data))
 
 # convert from ['1;2;3','4,5,6']
 # to [{'1':'1','2':'2','3':'3'},{'1':'4','2':'5','3':'6'}]
@@ -48,64 +77,64 @@ def convert_all_final_item_info_to_json(all_info):
 
 	return all_json
 
-def determine_standard_key(raw_key):
-    print("\n===Determine Standard Key for " + raw_key + "===\n")
+# def determine_standard_key(raw_key):
+#     print("\n===Determine Standard Key for " + raw_key + "===\n")
 
-    standard_key = ''
+#     standard_key = ''
 
-    all_field_keywords = { 
-        'sku':['sku','item#'], 
-        'collection':['collection'],
-        'features':['features','acme.description'],
-        'type':['product type','description'],
-        'intro':['intro','short description'],
-        'color':['color'],
-        'material':['material'],
-        'finish':['finish'],
-        'width':['width'],
-        'depth':['depth','length'],
-        'height':['height'],
-        'weight':['weight'],
-        'cost':['cost','price'],
-        'images':['image'],
-        'barcode':['barcode']
-    }
+#     all_field_keywords = { 
+#         'sku':['sku','item#'], 
+#         'collection':['collection'],
+#         'features':['features','acme.description'],
+#         'type':['product type','description'],
+#         'intro':['intro','short description'],
+#         'color':['color'],
+#         'material':['material'],
+#         'finish':['finish'],
+#         'width':['width'],
+#         'depth':['depth','length'],
+#         'height':['height'],
+#         'weight':['weight'],
+#         'cost':['cost','price'],
+#         'images':['image'],
+#         'barcode':['barcode']
+#     }
 
-    for field_key, field_keywords in all_field_keywords.items():
-        print("field_key, field_keywords: " + field_key + ", " + str(field_keywords))
-        for keyword in field_keywords:
-            raw_key_no_space = re.sub('(\\s+|_)','',raw_key.lower()) # unpredictable typos OR format in headers given by vendor such as 'D E S C R I P T I O N'
-            keyword_no_space = re.sub('\\s', '', keyword)
-            if re.search(keyword_no_space, raw_key_no_space):
-                print("keyword " + keyword + " in raw_key " + raw_key)
-                standard_key = field_key
-                break
-        if standard_key != '':
-            break
+#     for field_key, field_keywords in all_field_keywords.items():
+#         print("field_key, field_keywords: " + field_key + ", " + str(field_keywords))
+#         for keyword in field_keywords:
+#             raw_key_no_space = re.sub('(\\s+|_)','',raw_key.lower()) # unpredictable typos OR format in headers given by vendor such as 'D E S C R I P T I O N'
+#             keyword_no_space = re.sub('\\s', '', keyword)
+#             if re.search(keyword_no_space, raw_key_no_space):
+#                 print("keyword " + keyword + " in raw_key " + raw_key)
+#                 standard_key = field_key
+#                 break
+#         if standard_key != '':
+#             break
 
-    print("standard_key: " + standard_key)
-    return standard_key
+#     print("standard_key: " + standard_key)
+#     return standard_key
 
-def format_vendor_product_data(raw_data, key):
-	print("\n===Format Vendor Product Data===\n")
-	print("raw_data: " + str(raw_data))
+# def format_vendor_product_data(raw_data, key):
+# 	print("\n===Format Vendor Product Data===\n")
+# 	print("raw_data: " + str(raw_data))
 
-	data = str(raw_data) # should it be blank init so we can check it has been set easily?
+# 	data = str(raw_data) # should it be blank init so we can check it has been set easily?
 
-	text_fields = ['type','features','intro','finish','material'] # plain text is interpreted specifically
-	if key == 'sku':
-		data = str(raw_data).strip().lstrip("0")
-	elif key == 'cost':
-		data = str(raw_data).replace("$","").replace(",","").strip()
-	elif key == 'images':
-		data = str(raw_data).strip().lstrip("[").rstrip("]")
-	elif key in text_fields:
-		data = str(raw_data).strip().replace(";","-")
-	else:
-		data = str(raw_data).strip()
-	print("data: " + key + " " + str(data))
+# 	text_fields = ['type','features','intro','finish','material'] # plain text is interpreted specifically
+# 	if key == 'sku':
+# 		data = str(raw_data).strip().lstrip("0")
+# 	elif key == 'cost':
+# 		data = str(raw_data).replace("$","").replace(",","").strip()
+# 	elif key == 'images':
+# 		data = str(raw_data).strip().lstrip("[").rstrip("]")
+# 	elif key in text_fields:
+# 		data = str(raw_data).strip().replace(";","-")
+# 	else:
+# 		data = str(raw_data).strip()
+# 	print("data: " + key + " " + str(data))
 
-	return data
+# 	return data
 
 # convert from all_items_json = [[{'sku':'sku1','collection':'col1'}]]
 # to [{'sku':['sku1'],'collection':['col1']}]
@@ -124,8 +153,8 @@ def convert_list_of_items_to_fields(all_items_json):
 			# all_skus.append(item_json['sku'])
 			# all_collections.append(item_json['collection'])
 			for key in item_json:
-				standard_key = determine_standard_key(key)
-				formatted_input = format_vendor_product_data(item_json[key], standard_key) # passing in a single value corresponding to key. also need key to determine format.
+				standard_key = determiner.determine_standard_key(key)
+				formatted_input = reader.format_vendor_product_data(item_json[key], standard_key) # passing in a single value corresponding to key. also need key to determine format.
 				if standard_key != '' and formatted_input != '':
 					if key in all_fields_dict.keys():
 						print("add to existing key")
@@ -139,7 +168,7 @@ def convert_list_of_items_to_fields(all_items_json):
 			
 		list_of_fields.append(all_fields_dict)
 
-	print("all_fields_dict: " + str(all_fields_dict))
+	print("list_of_fields: " + str(list_of_fields))
 	return list_of_fields
 
 
@@ -327,64 +356,246 @@ def generate_catalog_from_json(all_items_json):
 
 	return catalog
 
+
+
+
+
+
+# print as single string that can then be separated by semicolon delimiter
+def display_shopify_variants(seller, vendor, all_details, product_titles, all_costs, all_barcodes, product_handles, product_tags, product_types, product_img_srcs, product_options, product_descrip_dict, all_skus, all_weights, all_weights_in_grams, import_tool = 'shopify'): # set import tool when calling to display the variants to be imported with the given import tool, bc they have different import orders although some do not care about order but use the title to determine field value match
+
+	print("\n === Display Shopify Variants === \n")
+
+	all_final_item_info = []
+
+	for item_idx in range(len(product_titles)):
+
+		# fields copied from details to shopify import
+		#handle = all_handles[item_idx] formerly copied directly from catalog table but now made automatically from raw data descrip and collection name (if col name not given by vendor then look in product names table)
+		item_cost = all_costs[item_idx]
+		barcode = all_barcodes[item_idx]
+		#img_src = all_img_srcs[item_idx] # formerly copied from catalog but img src may need to be reformatted as with google drive
+
+		# fields generated specifically for shopify import
+		product_handle = product_handles[item_idx] # added new way to make product handle 8/21/22
+		product_title = product_titles[item_idx]
+		product_tag_string = product_tags[item_idx]
+		product_type = product_types[item_idx]
+		product_img_src = product_img_srcs[item_idx]
+
+		product_option_string = writer.format_option_string(product_options[item_idx])
+
+		#body_html = product_descriptions[item_idx]
+		body_html = product_descrip_dict[product_handle]
+		vrnt_inv_tracker = '' # leave blank unless inv track capable
+		vrnt_inv_policy = ''
+		if import_tool == 'excelify':
+			vrnt_inv_policy = 'continue'
+		else:
+			vrnt_inv_policy = 'deny'
+		vrnt_weight_unit = 'lb'
+		cmd = 'UPDATE'
+		#vrnt_price = compute_vrnt_price(item_cost, product_type)
+		vrnt_price = generator.generate_vrnt_price(item_cost, product_type, seller) # seller tells us desired multiplier
+		#vrnt_compare_price = compute_vrnt_compare_price(vrnt_price)
+		vrnt_compare_price = generator.generate_vrnt_compare_price(vrnt_price)
+
+		# fields determined by request content/context
+		published = 'TRUE'
+		published_scope = 'global'
+
+		# general fields
+		sku = all_skus[item_idx]
+		item_weight = all_weights[item_idx]
+
+		final_item_info = ""
+		if import_tool == 'shopify':
+			# shopify specific fields
+			standard_product_type = ''
+			item_weight_in_grams = all_weights_in_grams[item_idx]
+			vrnt_inv_qty = ''
+			vrnt_fulfill_service = 'manual'
+			vrnt_req_ship = 'TRUE'
+			vrnt_taxable = 'TRUE'
+			img_position = ''
+			img_alt = ''
+			gift_card = 'FALSE'
+			vrnt_tax_code = ''
+			product_status = 'active'
+
+			#print("product_type: " + product_type)
+
+			vrnt_img = '' # still need to account for multiple img srcs given
+
+			# each image needs a new row, but deal with that after sorted by size bc that function needs to isolate products and sort indices
+			# product_imgs = product_img_src.split(",")
+			# #print("product_imgs: " + str(product_imgs))
+			# if len(product_imgs) > 0:
+			# 	for img in product_imgs:
+			# 		#print("img: " + str(img))
+			# 		final_item_info = product_handle + ";" + product_title + ";" + body_html + ";" + vendor.title() + ";" + standard_product_type + ";" + product_type + ";" + product_tag_string + ";" + published + ";" + product_option_string + ";" + sku + ";" + item_weight_in_grams + ";" + vrnt_inv_tracker + ";" + vrnt_inv_qty + ";" + vrnt_inv_policy + ";" + vrnt_fulfill_service + ";" + vrnt_price + ";" + vrnt_compare_price + ";" + vrnt_req_ship + ";" + vrnt_taxable + ";" + barcode + ";" + img + ";" + img_position + ";" + img_alt + ";" + vrnt_img + ";" + vrnt_weight_unit + ";" + vrnt_tax_code + ";" + item_cost + ";" + product_status
+			# 		#print(final_item_info)
+			# 		all_final_item_info.append(final_item_info)
+			# else:
+			# 	final_item_info = product_handle + ";" + product_title + ";" + body_html + ";" + vendor.title() + ";" + standard_product_type + ";" + product_type + ";" + product_tag_string + ";" + published + ";" + product_option_string + ";" + sku + ";" + item_weight_in_grams + ";" + vrnt_inv_tracker + ";" + vrnt_inv_qty + ";" + vrnt_inv_policy + ";" + vrnt_fulfill_service + ";" + vrnt_price + ";" + vrnt_compare_price + ";" + vrnt_req_ship + ";" + vrnt_taxable + ";" + barcode + ";" + product_img_src + ";" + img_position + ";" + img_alt + ";" + vrnt_img + ";" + vrnt_weight_unit + ";" + vrnt_tax_code + ";" + item_cost + ";" + product_status
+			# 	#print(final_item_info)
+			# 	all_final_item_info.append(final_item_info)
+
+			final_item_info = product_handle + ";" + product_title + ";" + body_html + ";" + vendor.title() + ";" + standard_product_type + ";" + product_type + ";" + product_tag_string + ";" + published + ";" + product_option_string + ";" + sku + ";" + item_weight_in_grams + ";" + vrnt_inv_tracker + ";" + vrnt_inv_qty + ";" + vrnt_inv_policy + ";" + vrnt_fulfill_service + ";" + vrnt_price + ";" + vrnt_compare_price + ";" + vrnt_req_ship + ";" + vrnt_taxable + ";" + barcode + ";" + product_img_src + ";" + img_position + ";" + img_alt + ";" + vrnt_img + ";" + vrnt_weight_unit + ";" + vrnt_tax_code + ";" + item_cost + ";" + product_status
+			#print(final_item_info)
+			all_final_item_info.append(final_item_info)
+		elif import_tool == 'excelify':
+			final_item_info = sku + ";" + product_handle + ";" + item_weight + ";" + item_cost + ";" + barcode + ";=" + body_html + ";" + product_option_string + ";" + product_tag_string + ";" + product_img_src + ";" + product_type + ";" + product_title + ";" + published + ";" + published_scope + ";" + vrnt_inv_tracker + ";" + vrnt_inv_policy + ";" + vrnt_weight_unit + ";" + cmd + ";" + vendor + ";" + vrnt_price + ";" + vrnt_compare_price
+
+			#print(final_item_info)
+			all_final_item_info.append(final_item_info)
+
+	#print("\n===ALL FINAL ITEM INFO===\n" + str(all_final_item_info))
+
+	#sorted_final_item_info = sort_items_by_size(all_final_item_info, "shopify") # we do not want to remove lines with same handles if they have different images
+	sorted_final_item_info = sorter.sort_items_by_size(all_final_item_info, "shopify", all_details) # we do not want to remove lines with same handles if they have different images
+	#sorted_final_item_info = all_final_item_info
+
+	# shopify import tool needs imgs on different lines
+	if import_tool == 'shopify':
+		sorted_final_item_info = sorter.split_variants_by_img(sorted_final_item_info)
+
+	writer.display_shopify_variant_headers()
+	for item_info in sorted_final_item_info:
+		print(item_info)
+
+	return sorted_final_item_info
+
 # adapted from product generator
 def generate_all_products(all_items_json):
+	print("\n===Generate All Products===\n")
+
+	seller = 'HFF'
+	vendor = 'acme'
+
 	print("input all_items_json: " + str(all_items_json))
-	catalog = generate_catalog_from_json(all_items_json)
-	print("catalog: " + str(catalog))
+	all_details = generate_catalog_from_json(all_items_json) # catalog here corresponds to all_details in original product generator
+	print("catalog: " + str(all_details))
 
 	# generate product
+	print("\n===Generate Product===\n")
+	# store init item details untouched so we can detect measurement type based on input format of dimensions
+	init_all_details = copy.deepcopy(all_details)
+
+	# General Info from Details table
+	all_skus = reader.format_field_values('sku', all_details)
+	all_widths = reader.format_field_values('width', all_details, init_all_details)
+	all_depths = reader.format_field_values('depth', all_details, init_all_details)
+	all_heights = reader.format_field_values('height', all_details, init_all_details)
+	all_weights = reader.format_field_values('weight', all_details, init_all_details)
+	init_unit='lb'
+	all_weights_in_grams = converter.convert_all_weights_to_grams(all_weights, init_unit) # shopify requires grams
+	all_costs = reader.format_field_values('cost', all_details)
+	all_barcodes = reader.format_field_values('barcode', all_details)
+	all_img_srcs = reader.format_field_values('img', all_details)
+	all_vrnt_imgs = reader.format_field_values('vrnt_img', all_details)
+
+
+	# ====== Shopify Product Catalog ======
+	print("\n====== Shopify Product Catalog ======\n")
+
+	#writer.display_all_item_details(init_all_details)
+
+	# generate handles
+	product_handles = generator.generate_all_handles(all_details) # formerly copied directly from catalog table but now made automatically from raw data descrip and collection name (if col name not given by vendor then look in product names table)
+	#writer.display_field_values(product_handles)
+
+	# generate titles, based on handles
+	product_titles = generator.generate_all_titles(all_details, product_handles)
+	#writer.display_field_values(product_titles)
+
+	# generate tags
+	product_tags = generator.generate_all_tags(all_details, vendor)
+	#writer.display_field_values(product_tags)
+
+	# generate product types
+	product_types = generator.generate_all_product_types(all_details)
+	#writer.display_field_values(product_types)
+
+	# generate product img srcs
+	product_img_srcs = generator.generate_all_product_img_srcs(all_details)
+	#writer.display_field_values(product_img_srcs)
+
+	# generate options
+	product_options = generator.generate_all_options(all_details, init_all_details) # we need init details to detect measurement type
+	#writer.display_field_values(product_options)
+	#writer.display_all_item_details(init_all_details)
+
+	# generate descriptions by list of instances
+	#product_descriptions = generator.generate_all_descriptions(all_details, init_all_details)
+	#writer.display_field_values(product_descriptions)
+	# generate descriptions with dictionary
+	product_descrip_dict = generator.generate_descrip_dict(all_details, init_all_details)
+	#writer.display_field_values(product_descrip_dict)
+
+
+
 
 	# convert final item info to product import rows [{}]
-	all_info_sample = ['handle;title;variant_sku;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33']
-	all_products = convert_all_final_item_info_to_json(all_info_sample) #[{'sku':'sku1'}]
+	
+	#all_info_sample = ['handle;title;variant_sku;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33']
+	all_final_item_info = display_shopify_variants(seller, vendor, all_details, product_titles, all_costs, all_barcodes, product_handles, product_tags, product_types, product_img_srcs, product_options, product_descrip_dict, all_skus, all_weights, all_weights_in_grams, import_tool = 'shopify')
+	all_products = convert_all_final_item_info_to_json(all_final_item_info) #[{'sku':'sku1'}] all final item json
 	print("all_products: " + str(all_products))
 
 	return all_products
 
+def generate_single_product():
+	product = {}
+	return product
+
 def handler(event, context):
-    print('received event:')
-    print(event)
-    # logger.info('event')
+	print('received event:')
+	print(event)
+	# logger.info('event')
     # logger.info(event)
+	# # queryStringParameters = { param1: x, param2: y }
+	submit_type = event.get('queryStringParameters')['submit_type']
+	final_data = json.dumps('')
+	if submit_type == 'form':
+		sku = event.get('queryStringParameters')['sku']
+		collection = event.get('queryStringParameters')['collection']
+		type = event.get('queryStringParameters')['type']
+		intro = event.get('queryStringParameters')['intro']
+		colors = event.get('queryStringParameters')['colors']
+		materials = event.get('queryStringParameters')['materials']
+		finish = event.get('queryStringParameters')['finish']
+		width = event.get('queryStringParameters')['width']
+		depth = event.get('queryStringParameters')['depth']
+		height = event.get('queryStringParameters')['height']
+		weight = event.get('queryStringParameters')['weight']
+		features = event.get('queryStringParameters')['features']
+		cost = event.get('queryStringParameters')['cost']
+		images = event.get('queryStringParameters')['images']
+		
+		all_items_json = [[{
+			"sku":sku,
+			"collection":collection,
+			"type":type,
+			"intro":intro,
+			"colors":colors,
+			"materials":materials,
+			"finish":finish,
+			"width":width,
+			"depth":depth,
+			"height":height,
+			"weight":weight,
+			"features":features,
+			"cost":cost,
+			"images":images
+		}]]
 
-
-    # queryStringParameters = { param1: x, param2: y }
-    submit_type = event.get('queryStringParameters')['submit_type']
-    final_data = json.dumps('')
-
-    # if submit_type == 'form fill':
-
-    #     rows = event.get('queryStringParameters')['vendor_product_json']
-    #     final_data = json.dumps(rows)
-        
-        # collection = event.get('queryStringParameters')['collection']
-        # type = event.get('queryStringParameters')['type']
-    
-    
-    
-        # handle = collection + '-' + type
-
-
-
-        # final_data = json.dumps(handle)  #json.dumps('Hello from your new Amplify Python lambda!')
-    
-    #elif submit_type == 'upload file':
-        
-    # rows = event.get('queryStringParameters')['vendor_product_json']
-    # final_data = json.dumps(rows)
-
-
-    if submit_type == 'form':
-        collection = event.get('queryStringParameters')['collection']
-        type = event.get('queryStringParameters')['type']
-        handle = collection + '-' + type
-        final_data = json.dumps(handle)  #json.dumps('Hello from your new Amplify Python lambda!')
-    
-    elif submit_type == 'file':
-        all_items_json = json.loads(event.get('queryStringParameters')['vendor_product_json'])
-        print("all_items_json: " + str(all_items_json))
-        product_import_rows = generate_all_products(all_items_json)
+		product = generate_all_products(all_items_json)[0]
+		final_data = json.dumps(product)
+	elif submit_type == 'file':
+		all_items_json = json.loads(event.get('queryStringParameters')['vendor_product_json'])
+		print("all_items_json: " + str(all_items_json))
+		product_import_rows = generate_all_products(all_items_json)
 
 
 
@@ -438,12 +649,9 @@ def handler(event, context):
         #         import_row['title'] = title
         #         import_row['variant_sku'] = variant_sku
         #         product_import_rows.append(import_row) # [{}]
-
-        final_data = json.dumps(product_import_rows) # rows, one for each product, ready for import
-            
-
-
-    return {
+		final_data = json.dumps(product_import_rows) # rows, one for each product, ready for import
+	
+	return {
         'statusCode': 200,
         'headers': {
             'Access-Control-Allow-Headers': '*',

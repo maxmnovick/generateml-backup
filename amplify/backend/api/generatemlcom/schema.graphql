@@ -10,5 +10,17 @@ type ProductDetails @model @auth(rules: [{allow: public}]) {
   SKU: String
   Collection: String
   Type: String
+  Intro: String
+  Colors: String
+  Materials: String
+  Finish: String
+  Width: String
+  Depth: String
+  Height: String
+  Weight: String
+  Features: String
+  Cost: String
+  Image: String
+  Barcode: String
 }
  

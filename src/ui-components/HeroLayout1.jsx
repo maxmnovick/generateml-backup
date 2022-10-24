@@ -10,10 +10,13 @@ import {
   getOverrideProps,
   getOverridesFromVariants,
   mergeVariantsAndOverrides,
+  useDataStoreDeleteAction,
 } from "@aws-amplify/ui-react/internal";
+import { ProductImport } from "../models";
+import { schema } from "../models/schema";
 import { Button, Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function HeroLayout1(props) {
-  const { overrides: overridesProp, ...rest } = props;
+  const { productImport, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
       overrides: {
@@ -43,7 +46,7 @@ export default function HeroLayout1(props) {
         Button: {},
         HeroMessage: {},
         Left: { backgroundColor: "rgba(0,0,0,1)" },
-        image: { alignSelf: "stretch", objectFit: "cover" },
+        image: { width: "unset", alignSelf: "stretch" },
         Right: {},
         HeroLayout1: {},
       },
@@ -54,9 +57,15 @@ export default function HeroLayout1(props) {
     getOverridesFromVariants(variants, props),
     overridesProp || {}
   );
+  const buttonOnClick = useDataStoreDeleteAction({
+    id: productImport?.id,
+    model: ProductImport,
+    schema: schema,
+  });
   return (
     <Flex
       gap="0"
+      direction="row"
       width="1440px"
       height="500px"
       justifyContent="center"
@@ -70,12 +79,15 @@ export default function HeroLayout1(props) {
       <Flex
         gap="10px"
         direction="column"
-        width="100%"
+        width="unset"
+        height="unset"
         justifyContent="center"
         alignItems="center"
-        grow="1"
-        alignSelf="stretch"
         overflow="hidden"
+        grow="1"
+        shrink="1"
+        basis="0"
+        alignSelf="stretch"
         position="relative"
         padding="120px 120px 120px 120px"
         backgroundColor="rgba(255,255,255,1)"
@@ -85,11 +97,12 @@ export default function HeroLayout1(props) {
         <Flex
           gap="24px"
           direction="column"
+          width="unset"
+          height="unset"
           justifyContent="center"
           alignItems="center"
           shrink="0"
           alignSelf="stretch"
-          objectFit="cover"
           position="relative"
           padding="0px 0px 0px 0px"
           display="flex"
@@ -102,12 +115,15 @@ export default function HeroLayout1(props) {
             color="rgba(13,26,38,1)"
             lineHeight="24px"
             textAlign="center"
-            display="flex"
+            display="block"
             direction="column"
-            justifyContent="flex-start"
+            justifyContent="unset"
+            width="unset"
+            height="unset"
+            gap="unset"
+            alignItems="unset"
             shrink="0"
             alignSelf="stretch"
-            objectFit="cover"
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
@@ -117,11 +133,12 @@ export default function HeroLayout1(props) {
           <Flex
             gap="16px"
             direction="column"
+            width="unset"
+            height="unset"
             justifyContent="center"
             alignItems="center"
             shrink="0"
             alignSelf="stretch"
-            objectFit="cover"
             position="relative"
             padding="0px 0px 0px 0px"
             display="flex"
@@ -134,12 +151,15 @@ export default function HeroLayout1(props) {
               color="rgba(13,26,38,1)"
               lineHeight="30px"
               textAlign="center"
-              display="flex"
+              display="block"
               direction="column"
-              justifyContent="flex-start"
+              justifyContent="unset"
+              width="unset"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
               shrink="0"
               alignSelf="stretch"
-              objectFit="cover"
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
@@ -156,13 +176,16 @@ export default function HeroLayout1(props) {
               color="rgba(13,26,38,1)"
               lineHeight="24px"
               textAlign="center"
-              display="flex"
+              display="block"
               direction="column"
-              justifyContent="flex-start"
+              justifyContent="unset"
               letterSpacing="0.01px"
+              width="unset"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
               shrink="0"
               alignSelf="stretch"
-              objectFit="cover"
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
@@ -176,7 +199,9 @@ export default function HeroLayout1(props) {
           <Button
             display="flex"
             gap="0"
-            width="fit-content"
+            direction="row"
+            width="unset"
+            height="unset"
             justifyContent="center"
             alignItems="center"
             shrink="0"
@@ -185,6 +210,9 @@ export default function HeroLayout1(props) {
             isDisabled={false}
             variation="primary"
             children="Primary Button"
+            onClick={() => {
+              buttonOnClick();
+            }}
             {...getOverrideProps(overrides, "Button")}
           ></Button>
         </Flex>
@@ -192,12 +220,15 @@ export default function HeroLayout1(props) {
       <Flex
         gap="10px"
         direction="column"
-        width="100%"
+        width="unset"
+        height="unset"
         justifyContent="center"
         alignItems="center"
-        grow="1"
-        alignSelf="stretch"
         overflow="hidden"
+        grow="1"
+        shrink="1"
+        basis="0"
+        alignSelf="stretch"
         position="relative"
         padding="0px 0px 0px 0px"
         display="flex"
@@ -205,11 +236,17 @@ export default function HeroLayout1(props) {
       >
         <Image
           width="720px"
-          height="500px"
+          height="unset"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
           grow="1"
+          shrink="1"
+          basis="0"
           position="relative"
           padding="0px 0px 0px 0px"
-          display="flex"
+          objectFit="cover"
           {...getOverrideProps(overrides, "image")}
         ></Image>
       </Flex>

@@ -1,5 +1,11 @@
 index.py
 setup.py
+determiner.py
+converter.py
+generator.py
+reader.py
+sorter.py
+writer.py
 src.egg-info/PKG-INFO
 src.egg-info/SOURCES.txt
 src.egg-info/dependency_links.txt

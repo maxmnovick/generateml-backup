@@ -5,9 +5,12 @@
  **************************************************************************/
 
 import React from "react";
+import { ProductDetails } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { ViewProps } from "@aws-amplify/ui-react";
 export declare type ProductDetailsFormProps = React.PropsWithChildren<Partial<ViewProps> & {
+    productDetails?: ProductDetails;
+} & {
     overrides?: EscapeHatchProps | undefined | null;
 }>;
 export default function ProductDetailsForm(props: ProductDetailsFormProps): React.ReactElement;

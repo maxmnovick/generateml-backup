@@ -6,8 +6,11 @@
 
 import React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { ProductImport } from "../models";
 import { FlexProps } from "@aws-amplify/ui-react";
 export declare type HeroLayout1Props = React.PropsWithChildren<Partial<FlexProps> & {
+    productImport?: ProductImport;
+} & {
     mode?: "Dark" | "Light";
 } & {
     overrides?: EscapeHatchProps | undefined | null;

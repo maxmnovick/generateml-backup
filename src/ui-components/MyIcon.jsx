@@ -325,10 +325,13 @@ export default function MyIcon(props) {
     <Icon
       width="24px"
       height="24px"
+      display="block"
+      gap="unset"
+      alignItems="unset"
+      justifyContent="unset"
       overflow="hidden"
       position="relative"
       padding="0px 0px 0px 0px"
-      display="block"
       viewBox={{ minX: 0, minY: 0, width: 24, height: 24 }}
       paths={[
         {

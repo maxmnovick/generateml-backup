@@ -55,6 +55,12 @@ th, td {
 th {
   border-bottom: 1px solid #000;
   background-color:#dcdfe5;
+  color:black;
+}
+
+td div {
+  height:100px;
+  overflow: auto;
 }
 
 .table_wrapper {
@@ -67,4 +73,33 @@ tr:not(:last-child) {
 
 tr:last-child {
   border-bottom: 1px solid black;
+}
+
+.step_wrapper {
+  margin-bottom: 18px;
+}
+
+.body_wrapper {
+  margin:6px 12px;
+}
+
+.option_value {
+  border:1px solid black;
+}
+
+.compare_price {
+  text-decoration: line-through;
+  display: inline;
+}
+
+.details_wrapper {
+  max-width: 530px;
+}
+
+.title {
+  font-size: 32px;
+}
+
+.form_wrapper {
+  margin-bottom: 12px;
 }

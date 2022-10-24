@@ -23,7 +23,10 @@ export default function ProductCard(props) {
   return (
     <Flex
       gap="0"
+      direction="row"
       width="960px"
+      height="unset"
+      justifyContent="flex-start"
       alignItems="flex-start"
       position="relative"
       padding="0px 0px 0px 0px"
@@ -32,18 +35,28 @@ export default function ProductCard(props) {
     >
       <Image
         width="320px"
+        height="unset"
+        display="block"
+        gap="unset"
+        alignItems="unset"
+        justifyContent="unset"
         shrink="0"
         alignSelf="stretch"
         position="relative"
         padding="0px 0px 0px 0px"
+        objectFit="cover"
         {...getOverrideProps(overrides, "image")}
       ></Image>
       <Flex
         gap="24px"
         direction="column"
-        width="100%"
+        width="unset"
+        height="unset"
+        justifyContent="flex-start"
+        alignItems="flex-start"
         grow="1"
-        height="366px"
+        shrink="1"
+        basis="0"
         position="relative"
         padding="32px 32px 32px 32px"
         backgroundColor="rgba(255,255,255,1)"
@@ -56,12 +69,15 @@ export default function ProductCard(props) {
           color="rgba(13,26,38,1)"
           lineHeight="25px"
           textAlign="left"
-          display="flex"
+          display="block"
           direction="column"
-          justifyContent="flex-start"
+          justifyContent="unset"
+          width="unset"
+          height="unset"
+          gap="unset"
+          alignItems="unset"
           shrink="0"
           alignSelf="stretch"
-          objectFit="cover"
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
@@ -70,7 +86,10 @@ export default function ProductCard(props) {
         ></Text>
         <Flex
           gap="16px"
-          width="fit-content"
+          direction="row"
+          width="unset"
+          height="unset"
+          justifyContent="flex-start"
           alignItems="center"
           shrink="0"
           position="relative"
@@ -80,10 +99,12 @@ export default function ProductCard(props) {
           <Rating
             display="flex"
             gap="8px"
-            width="fit-content"
+            direction="row"
+            width="unset"
+            height="unset"
+            justifyContent="flex-start"
             alignItems="center"
             shrink="0"
-            height="36px"
             position="relative"
             padding="0px 0px 0px 0px"
             size="large"
@@ -96,11 +117,14 @@ export default function ProductCard(props) {
             color="rgba(13,26,38,1)"
             lineHeight="22px"
             textAlign="left"
-            display="flex"
+            display="block"
             direction="column"
-            justifyContent="flex-start"
+            justifyContent="unset"
             textDecoration="underline"
             width="19px"
+            height="unset"
+            gap="unset"
+            alignItems="unset"
             shrink="0"
             position="relative"
             padding="0px 0px 0px 0px"
@@ -111,7 +135,10 @@ export default function ProductCard(props) {
         </Flex>
         <Flex
           gap="16px"
-          width="fit-content"
+          direction="row"
+          width="unset"
+          height="unset"
+          justifyContent="flex-start"
           alignItems="center"
           shrink="0"
           position="relative"
@@ -119,13 +146,14 @@ export default function ProductCard(props) {
           {...getOverrideProps(overrides, "Tags")}
         >
           <Badge
-            display="flex"
+            display="block"
             gap="10px"
-            width="fit-content"
-            justifyContent="flex-start"
+            direction="column"
+            width="unset"
+            height="unset"
+            justifyContent="unset"
             alignItems="center"
             shrink="0"
-            height="24px"
             position="relative"
             borderRadius="32px"
             backgroundColor="rgba(239,240,240,1)"
@@ -135,20 +163,20 @@ export default function ProductCard(props) {
             fontWeight="400"
             color="rgba(13,26,38,1)"
             textAlign="left"
-            direction="column"
             size="small"
             variation="default"
             children="New"
             {...getOverrideProps(overrides, "Badge29766804")}
           ></Badge>
           <Badge
-            display="flex"
+            display="block"
             gap="10px"
-            width="fit-content"
-            justifyContent="flex-start"
+            direction="column"
+            width="unset"
+            height="unset"
+            justifyContent="unset"
             alignItems="center"
             shrink="0"
-            height="24px"
             position="relative"
             borderRadius="32px"
             backgroundColor="rgba(239,240,240,1)"
@@ -158,20 +186,20 @@ export default function ProductCard(props) {
             fontWeight="400"
             color="rgba(13,26,38,1)"
             textAlign="left"
-            direction="column"
             size="small"
             variation="default"
             children="Classic"
             {...getOverrideProps(overrides, "Badge29766805")}
           ></Badge>
           <Badge
-            display="flex"
+            display="block"
             gap="10px"
-            width="fit-content"
-            justifyContent="flex-start"
+            direction="column"
+            width="unset"
+            height="unset"
+            justifyContent="unset"
             alignItems="center"
             shrink="0"
-            height="24px"
             position="relative"
             borderRadius="32px"
             backgroundColor="rgba(239,240,240,1)"
@@ -181,7 +209,6 @@ export default function ProductCard(props) {
             fontWeight="400"
             color="rgba(13,26,38,1)"
             textAlign="left"
-            direction="column"
             size="small"
             variation="default"
             children="Modern"
@@ -195,13 +222,16 @@ export default function ProductCard(props) {
           color="rgba(13,26,38,1)"
           lineHeight="24px"
           textAlign="left"
-          display="flex"
+          display="block"
           direction="column"
-          justifyContent="flex-start"
+          justifyContent="unset"
           letterSpacing="0.01px"
+          width="unset"
+          height="unset"
+          gap="unset"
+          alignItems="unset"
           shrink="0"
           alignSelf="stretch"
-          objectFit="cover"
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
@@ -210,10 +240,13 @@ export default function ProductCard(props) {
         ></Text>
         <Flex
           gap="16px"
+          direction="row"
+          width="unset"
+          height="unset"
+          justifyContent="flex-start"
           alignItems="flex-start"
           shrink="0"
           alignSelf="stretch"
-          objectFit="cover"
           position="relative"
           padding="0px 0px 0px 0px"
           {...getOverrideProps(overrides, "Quote")}
@@ -221,8 +254,12 @@ export default function ProductCard(props) {
           <MyIcon
             width="24px"
             height="24px"
-            shrink="0"
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
             overflow="hidden"
+            shrink="0"
             position="relative"
             padding="0px 0px 0px 0px"
             type="chat"
@@ -235,12 +272,17 @@ export default function ProductCard(props) {
             color="rgba(48,64,80,1)"
             lineHeight="24px"
             textAlign="left"
-            display="flex"
+            display="block"
             direction="column"
-            justifyContent="flex-start"
+            justifyContent="unset"
             letterSpacing="0.01px"
-            width="536px"
+            width="unset"
+            height="unset"
+            gap="unset"
+            alignItems="unset"
             grow="1"
+            shrink="1"
+            basis="0"
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
@@ -249,10 +291,14 @@ export default function ProductCard(props) {
           ></Text>
         </Flex>
         <Divider
+          width="unset"
           height="1px"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
           shrink="0"
           alignSelf="stretch"
-          objectFit="cover"
           position="relative"
           padding="0px 0px 0px 0px"
           size="small"
@@ -261,7 +307,10 @@ export default function ProductCard(props) {
         ></Divider>
         <Flex
           gap="32px"
-          width="fit-content"
+          direction="row"
+          width="unset"
+          height="unset"
+          justifyContent="flex-start"
           alignItems="flex-start"
           shrink="0"
           position="relative"
@@ -270,10 +319,12 @@ export default function ProductCard(props) {
         >
           <Flex
             gap="16px"
-            width="fit-content"
+            direction="row"
+            width="unset"
+            height="unset"
+            justifyContent="flex-start"
             alignItems="flex-start"
             shrink="0"
-            height="24px"
             position="relative"
             padding="0px 0px 0px 0px"
             {...getOverrideProps(overrides, "Feature29766813")}
@@ -281,15 +332,19 @@ export default function ProductCard(props) {
             <View
               width="24px"
               height="24px"
-              shrink="0"
+              display="block"
+              gap="unset"
+              alignItems="unset"
+              justifyContent="unset"
               overflow="hidden"
+              shrink="0"
               position="relative"
               padding="0px 0px 0px 0px"
               {...getOverrideProps(overrides, "Icon29766814")}
             >
               <Icon
-                width="17.58984375px"
-                height="13.40997314453125px"
+                width="17.59px"
+                height="13.41px"
                 viewBox={{
                   minX: 0,
                   minY: 0,
@@ -303,6 +358,10 @@ export default function ProductCard(props) {
                     fillRule: "nonzero",
                   },
                 ]}
+                display="block"
+                gap="unset"
+                alignItems="unset"
+                justifyContent="unset"
                 position="absolute"
                 top="23.29%"
                 bottom="20.83%"
@@ -318,10 +377,14 @@ export default function ProductCard(props) {
               color="rgba(48,64,80,1)"
               lineHeight="24px"
               textAlign="left"
-              display="flex"
+              display="block"
               direction="column"
-              justifyContent="flex-start"
+              justifyContent="unset"
               letterSpacing="0.01px"
+              width="unset"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
               shrink="0"
               position="relative"
               padding="0px 0px 0px 0px"
@@ -332,10 +395,12 @@ export default function ProductCard(props) {
           </Flex>
           <Flex
             gap="16px"
-            width="fit-content"
+            direction="row"
+            width="unset"
+            height="unset"
+            justifyContent="flex-start"
             alignItems="flex-start"
             shrink="0"
-            height="24px"
             position="relative"
             padding="0px 0px 0px 0px"
             {...getOverrideProps(overrides, "Feature29766817")}
@@ -343,15 +408,19 @@ export default function ProductCard(props) {
             <View
               width="24px"
               height="24px"
-              shrink="0"
+              display="block"
+              gap="unset"
+              alignItems="unset"
+              justifyContent="unset"
               overflow="hidden"
+              shrink="0"
               position="relative"
               padding="0px 0px 0px 0px"
               {...getOverrideProps(overrides, "Icon29766818")}
             >
               <Icon
-                width="17.58984375px"
-                height="13.40997314453125px"
+                width="17.59px"
+                height="13.41px"
                 viewBox={{
                   minX: 0,
                   minY: 0,
@@ -365,6 +434,10 @@ export default function ProductCard(props) {
                     fillRule: "nonzero",
                   },
                 ]}
+                display="block"
+                gap="unset"
+                alignItems="unset"
+                justifyContent="unset"
                 position="absolute"
                 top="23.29%"
                 bottom="20.83%"
@@ -380,10 +453,14 @@ export default function ProductCard(props) {
               color="rgba(48,64,80,1)"
               lineHeight="24px"
               textAlign="left"
-              display="flex"
+              display="block"
               direction="column"
-              justifyContent="flex-start"
+              justifyContent="unset"
               letterSpacing="0.01px"
+              width="unset"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
               shrink="0"
               position="relative"
               padding="0px 0px 0px 0px"
@@ -394,10 +471,12 @@ export default function ProductCard(props) {
           </Flex>
           <Flex
             gap="16px"
-            width="fit-content"
+            direction="row"
+            width="unset"
+            height="unset"
+            justifyContent="flex-start"
             alignItems="flex-start"
             shrink="0"
-            height="24px"
             position="relative"
             padding="0px 0px 0px 0px"
             {...getOverrideProps(overrides, "Feature29766821")}
@@ -405,15 +484,19 @@ export default function ProductCard(props) {
             <View
               width="24px"
               height="24px"
-              shrink="0"
+              display="block"
+              gap="unset"
+              alignItems="unset"
+              justifyContent="unset"
               overflow="hidden"
+              shrink="0"
               position="relative"
               padding="0px 0px 0px 0px"
               {...getOverrideProps(overrides, "Icon29766822")}
             >
               <Icon
-                width="17.58984375px"
-                height="13.40997314453125px"
+                width="17.59px"
+                height="13.41px"
                 viewBox={{
                   minX: 0,
                   minY: 0,
@@ -427,6 +510,10 @@ export default function ProductCard(props) {
                     fillRule: "nonzero",
                   },
                 ]}
+                display="block"
+                gap="unset"
+                alignItems="unset"
+                justifyContent="unset"
                 position="absolute"
                 top="23.29%"
                 bottom="20.83%"
@@ -442,10 +529,14 @@ export default function ProductCard(props) {
               color="rgba(48,64,80,1)"
               lineHeight="24px"
               textAlign="left"
-              display="flex"
+              display="block"
               direction="column"
-              justifyContent="flex-start"
+              justifyContent="unset"
               letterSpacing="0.01px"
+              width="unset"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
               shrink="0"
               position="relative"
               padding="0px 0px 0px 0px"

@@ -104,6 +104,90 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "Intro": {
+                    "name": "Intro",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Colors": {
+                    "name": "Colors",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Materials": {
+                    "name": "Materials",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Finish": {
+                    "name": "Finish",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Width": {
+                    "name": "Width",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Depth": {
+                    "name": "Depth",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Height": {
+                    "name": "Height",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Weight": {
+                    "name": "Weight",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Features": {
+                    "name": "Features",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Cost": {
+                    "name": "Cost",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Image": {
+                    "name": "Image",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Barcode": {
+                    "name": "Barcode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -149,5 +233,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "ce506f6e7140c4036a5c7a25f723ebe8"
+    "version": "4376c090d0ec15eeea42cfedb1cdfa96"
 };
